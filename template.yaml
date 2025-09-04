@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Serverless Notification Service
+
+Resources:
+  NotificationFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: notification.handler
+      Runtime: nodejs14.x
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref NotificationTable
+        - SQSSendMessagePolicy:
+            QueueName: !Ref NotificationQueue
+      Environment:
+        TABLE_NAME: !Ref NotificationTable
+
+  NotificationTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: NotificationTable
+      AttributeDefinitions:
+        - AttributeName: userId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: userId
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+
+  NotificationQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: NotificationQueue
+
+Outputs:
+  NotificationFunction:
+    Description: "Function ARN"
+    Value: !GetAtt NotificationFunction.Arn
+  NotificationTable:
+    Description: "DynamoDB Table"
+    Value: !Ref NotificationTable
+  NotificationQueue:
+    Description: "SQS Queue"
+    Value: !Ref NotificationQueue
