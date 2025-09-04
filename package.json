@@ -7,6 +7,6 @@
     "start": "node src/notification.js"
   },
   "dependencies": {
-    "aws-sdk": "^2.1250.0"
+    "aws-sdk": "^2.1300.0"
   }
 }
