@@ -19,7 +19,7 @@ Resources:
   NotificationTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: NotificationTable
+      TableName: !Sub '${AWS::StackName}-NotificationTable'
       AttributeDefinitions:
         - AttributeName: userId
           AttributeType: S
