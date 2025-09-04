@@ -7,7 +7,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: notification.handler
-      Runtime: nodejs14.x
+      Runtime: nodejs18.x
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref NotificationTable
